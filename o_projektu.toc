@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.10pt}
+\select@language {croatian}
+\beamer@sectionintoc {1}{Naslov}{1}{0}{1}
+\beamer@sectionintoc {2}{Opis problema}{2}{0}{2}

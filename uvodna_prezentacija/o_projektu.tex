@@ -1,0 +1,153 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{default}
+\usepackage[croatian]{babel}
+\usepackage{pseudocode}
+\usetheme{Boadilla}
+
+\title[3-SAT and MAX-SAT]{Ispunjivost logičkih formula}
+\subtitle{3SAT i MAX-SAT}
+\author[A. Čabraja,A. Štajduhar,A. Fofonjka]{Anto \v{C}abraja, Andrija \v{S}tajduhar, Anamarija Fofonjka}
+\institute[PMF-MO]{
+  Računarstvo i matematika\\
+  Sveučilište u Zagrebu, Prirodoslovno matematički fakultet\\
+  Bijenička 30, Zagreb\\[1ex]
+  \texttt{cabraja.anto@gmail.com}\\
+  \texttt{astajd@gmail.com}\\
+  \texttt{fofonjka@math.hr}
+}
+
+\begin{document}
+
+\section{Naslov}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Opis problema}
+\begin{frame}
+ \frametitle{Ispunjivost logičkih formule}
+ Provjera da li za zadanu formulu postoji interpretacija tako da je formula istinita.\\
+ Specijalni oblici su \emph{konjunktivna normalna forma} i \emph{disjunktivna normalna forma}.\\
+ Problem ispunjivosti logičkih formula obično se algoritamski provjerava na konjunktivnim normalnim formama.\\
+ Postoje teoremi koji nam jamče da za svaku formulu postoji KNF i DNF.
+\end{frame}
+
+\begin{frame}
+ \frametitle{Povijest problema}
+ Problem SAT je jedan od najdetaljnije istraženih problema na polju računarske znanosti.\\
+ Prvi problem za kojega je dokazano da je NP-potpun što nezavisno dokazuju S. Cook i L. Levin 1971. godine.\\
+ Mi ćemo proučavati neke generalizacije ovog problema.
+ 
+\end{frame}
+
+\begin{frame}
+ \frametitle{Problem koji proučavamo}
+ \begin{itemize}
+  \item 3-SAT
+  \item MAX-SAT
+  \item MAX-3-SAT
+ \end{itemize}
+
+\end{frame}
+
+
+\subsection{3-SAT}
+\begin{frame}
+ \frametitle{3-SAT opis}
+ Formule u konjunktivnoj normalnoj formi sa po 3 literala u svakoj elementarnoj disjunkciji npr:\\
+ $(P_1 \vee P_2 \vee P_3) \wedge (\neg P_2 \vee P_3 \vee P_4) .....$ \\
+ Problem je pronaći interpretaciju za koju je formula ispunjiva.\\
+ Dokazano da je NP-teško. \\
+\end{frame}
+
+\begin{frame}
+ \frametitle{3-SAT načini realizacije}
+ Paralelno.
+ \newline
+ \newline
+ Paradigme:\\
+ \begin{itemize}
+  \item Genetski algoritam 
+  \item Lokalno pretraživanje
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Motivacija i primjena}
+ \textbf{Motivacija:}\\
+ Već dugo poznat problem, mogućnost paralelizacije korištenjem više paradigmi, jaka matematička podloga ...\\
+ \textbf{Primjena:}
+ \begin{itemize}
+ \item Koristi se kao prvi korak u dokazivanju da su neki drugi problemi NP-teški
+ \item Polinomnom redukcijom NP-teške probleme može se svesti na 3-SAT problem npr. problem traženja maksimalnog potpunog podgrafa\\
+ \item Problemi teorije grafova rješavaju se restrikcijom na 1-3-SAT (dopušta se da je točno jedna varijabla istinita unutar elementarne disjunkcije)\\
+ \end{itemize}
+ \end{frame}
+\subsection{MAX-SAT}
+\begin{frame}
+ \frametitle{MAX-SAT opis:}
+ Formule u konjunktivnoj normalnoj formi.\\
+ Traži se maksimalni broj ispunjivih elementarnih disjunkcija unutar konjunktivne normalne forme.\\
+ Dokazano da je NP-teško.
+\end{frame}
+
+\begin{frame}
+ \frametitle{MAX-SAT realizacija:}
+ Paralelno.
+ \newline
+ \newline
+ Paradigme:
+ \begin{itemize}
+  \item Genetski algoritam
+  \item Lokalno pretraživanje
+ \end{itemize}
+\end{frame}
+ 
+
+\begin{frame}
+ \frametitle{Motivacija i primjene}
+ \textbf{Motivacija:}\\
+ Mogućnost paralelizacije, više modela za određivanje funkcije dobrote, dobra matematička podloga...\\
+ \textbf{Primjena:}
+ \begin{itemize}
+ \item Raspoznavanje uzoraka\\
+ \item Otkrivanje i uklanjanje hardverskih i softverskih pogrešaka\\
+ \item Usmjeravanje FPGA (Field-programmable gate array)\\
+ \item Raspoređivanje redosljeda poslova 
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Neki poznati rezultati}
+ Potpuni algoritmi koji se temelje na principu rezolucije rješenja.\\
+ Zanimljivo da za 1-SAT i 2-SAT postoje polinomijalni algoritmi koji na determinističkom Turingovom stroju daju rješenje.\\
+ Od heurističkih paradigmi najefikasnijom se pokazala kombinacija genetskog algoritma i nekog oblika lokalnog pretraživanja.\\
+ Problem se većinom rješavao sekvencijalno na jednom računalu.
+\end{frame}
+
+
+
+\subsection{MAX-3-SAT}
+\begin{frame}
+ \frametitle{MAX-3-SAT}
+ Veza između promatranih problema \\
+ Realizacija korištenjem već gotovih algoritama za navedene probleme 3-SAT i MAX-SAT
+\end{frame}
+
+\section{Tehnologije i zaključak}
+\begin{frame}
+ \frametitle{Tehnologije i podrška za realizaciju projekta}
+ Izrada u C/C++ programskom jeziku uz korištenje standardnih biblioteka \\
+ Kompajler gcc i g++\\
+ Tjek izrade projekta moguće pratiti na \url{ github.com/acabraja/meta-projekt}
+\end{frame}
+
+\begin{frame}
+ \begin{center}
+  \textbf{Hvala na pažnji!}
+ \end{center}
+\end{frame}
+
+\end{document}

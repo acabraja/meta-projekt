@@ -1,0 +1,8 @@
+\beamer@endinputifotherversion {3.10pt}
+\select@language {croatian}
+\beamer@sectionintoc {1}{Naslov}{1}{0}{1}
+\beamer@sectionintoc {2}{Opis problema}{2}{0}{2}
+\beamer@subsectionintoc {2}{1}{3-SAT}{5}{0}{2}
+\beamer@subsectionintoc {2}{2}{MAX-SAT}{8}{0}{2}
+\beamer@subsectionintoc {2}{3}{MAX-3-SAT}{12}{0}{2}
+\beamer@sectionintoc {3}{Tehnologije i zaklju\IeC {\v c}ak}{13}{0}{3}

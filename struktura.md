@@ -16,3 +16,13 @@ Faza 1 (rješavanje problema 3SAT)
        Faza 1.4 Grafika za solver
 Faza 2 (rješenje problema MAX-SAT)
       -> bit će definirano nakon rješenje prve faze tj. naknadno 
+
+Zamislila sam da problem 3 sat rjesavamo ovako:
+
+U mainu na osnovu logicke formule stvorimo vektor varijabli i vektor zagrada.
+Indeski u vektoru varijabli se poklapaju s indeksima u bitVektoru jedinke.
+Sutra sam planirala jos napraviti kako ce se racunati vjerojatnost mutacije za pojedinu varijabu,odnosno bit u bitVektoru jedinke.
+
+Tezina zagrade bi se povecavala ukoliko je zagradu tesko zadovoljiti odnosno ukoliko onda nije zadovoljena u prosloj generaciji.
+
+Vrednovanje bi bilo lako napraviti,samo provjerimo jesu li sve zagrade jednake 1.

@@ -1,18 +1,20 @@
 ## Opis strukture datoteka:
-
-*ga_algoritam 
+<ul>
+<li>ga_algoritam 
  Template genetski algoritam za sve naše probleme, kad ga budemo trebali samo ga zovemo za svoj problem. U njemu će se nalaziti sve vrste mutacija, selekcija i križanja koje budemo upotrebljavali. Kada neki operator trebamo za konkretan problem možemo ga pozvati ili doraditi u specijaliziranim datotekama za dani 
- problem.
+ problem.</li>
 
-*problemi 
+<li>problemi 
  Tu su specijalizirani direktoriji za naše probleme u njima se nalaze dorade osnovnog genetskog algoritma prema potrebi
+</li>
 
-*lok_pret
+<li>lok_pret
  Implementacija lokalnog pretraživanja koje ćemo koristiti u problemu MAX-SAT
-
-*test_primjeri
+</li>
+<li>test_primjeri
  Svi ulazne i izlazne txt datoteke primjera na kojima testiramo algoritme
- 
+</li>
+</ul>
 <br />
 <br />
 

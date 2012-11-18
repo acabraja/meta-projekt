@@ -1,3 +1,32 @@
+## Opis strukture datoteka:
+
+*ga_algoritam 
+ Template genetski algoritam za sve naše probleme, kad ga budemo trebali samo ga zovemo za svoj problem. U njemu će se nalaziti sve vrste mutacija, selekcija i križanja koje budemo upotrebljavali. Kada neki operator trebamo za konkretan problem možemo ga pozvati ili doraditi u specijaliziranim datotekama za dani 
+ problem.
+
+*problemi 
+ Tu su specijalizirani direktoriji za naše probleme u njima se nalaze dorade osnovnog genetskog algoritma prema potrebi
+
+*lok_pret
+ Implementacija lokalnog pretraživanja koje ćemo koristiti u problemu MAX-SAT
+
+*test_primjeri
+ Svi ulazne i izlazne txt datoteke primjera na kojima testiramo algoritme
+ 
+<br />
+<br />
+
+Ostalo je jasno iz imena i u slučaju primjedbe pisati u rubriku primjedb<br />
+<br />
+
+Ostalo je jasno iz imena i u slučaju primjedbe pisati u rubriku primjedbee
+
+
+
+
+
+## Fazno rješavanje problema:
+
 Rješavanje našeg problema izvodit će se u nekoliko koraka.
 
 Korak 1.
@@ -17,6 +46,10 @@ Faza 1 (rješavanje problema 3SAT)
 Faza 2 (rješenje problema MAX-SAT)
       -> bit će definirano nakon rješenje prve faze tj. naknadno 
 
+##Dogovori, ideje i primjedbe:
+
+####Anamarija
+######Ideja1:
 Zamislila sam da problem 3 sat rjesavamo ovako:
 
 U mainu na osnovu logicke formule stvorimo vektor varijabli i vektor zagrada.
@@ -26,3 +59,22 @@ Sutra sam planirala jos napraviti kako ce se racunati vjerojatnost mutacije za p
 Tezina zagrade bi se povecavala ukoliko je zagradu tesko zadovoljiti odnosno ukoliko onda nije zadovoljena u prosloj generaciji.
 
 Vrednovanje bi bilo lako napraviti,samo provjerimo jesu li sve zagrade jednake 1.
+
+####Andrija
+
+####Anto
+
+
+## Raspored poslova:
+
+####Raspored poslova za prvu fazu:
+
+>
+>Anamarija: Složiti strukturu jediniki i napraviti operator mutacije
+>
+>Anto: napraviti operator slekcije i funkciju dobrote za danu strukturu
+>
+>Andrija: napraviti operator križanja i testne primjere u main-u
+>
+
+

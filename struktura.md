@@ -65,7 +65,8 @@ Vrednovanje bi bilo lako napraviti,samo provjerimo jesu li sve zagrade jednake 1
 ####Andrija
 
 ####Anto
-
+Moja ideja je da za sada preskočimo dio sa template genetskim algoritmom i da ga napišemo specijalizirano za problem u fazi jedan. Razlog tomu je nedostatak
+ vremena.
 
 ## Raspored poslova:
 

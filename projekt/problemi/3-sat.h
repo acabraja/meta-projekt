@@ -19,21 +19,24 @@ class Zagrada;
 
 class Varijabla
 {
-  map < bool,set<Zagrada*> > zagrade;     //lista zagrada u kojima je varijabla sa negacijom i u kojima je bez negacije
-	double vjerojatnostMutacije;		        //vjerojatnost prelaska iz 0 u 1	
+  public:
+  map <bool,set<Zagrada*> > zagrade;     //lista zagrada u kojima je varijabla sa negacijom i u kojima je bez negacije
+  double vjerojatnostMutacije;		        //vjerojatnost prelaska iz 0 u 1	
 };
 
 class Zagrada
 {
-	int varijeble[3];         //indeksi varijabli  globalnom polju,a mozemo i polje pointera na varijable koje su u zagradi
+    public:
+    //indeksi varijabli  globalnom polju,a mozemo i polje pointera na varijable koje su u zagradi
+	int varijeble[3];
 	double tezina;	     
 };
 
 class Jedinka
 {
+	public:
 	vector<bool> bitVektor;	
 	double dobrota;
-	public:
 	Jedinka();// stvara slucajnu jedniku
 	Jedinka(vector<bool> bv); // stvara jedinku bez dobrote
 	Jedinka(vector<bool> bv,double fitt):bitVektor(bv),dobrota(fitt){}
@@ -42,5 +45,6 @@ class Jedinka
 
 void stvori_novu_populaciju(Jedinka& populacija,int status);
 
+double racunaj_dobrotu(vector<bool>& jedinka);
 
 //#endif

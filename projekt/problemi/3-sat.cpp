@@ -16,15 +16,15 @@ Jedinka::Jedinka()
       this->bitVektor.push_back(true);
   }
   
-  // treba izracunati sada funkciju dobrote
+  this->dobrota = racunaj_dobrotu(bitVektor);
 }
 
 
 Jedinka::Jedinka(vector<bool> vb)
 {
-  // treba izracunati dobrotu
+  this->bitVektor = vb;
+  this->dobrota = racunaj_dobrotu(bitVektor);
 }
-
 /* funkcija stvori_novu_populaciju()
 /* parametri: Jedinka&, int
 /* povratna vrijednost: void
@@ -40,10 +40,21 @@ void stvori_novu_populaciju(vector<Jedinka>& populacija,int status)
       populacija.push_back(Jedinka());
   else if( status == IZ_POSTOJECE )
   {
-    // slekcija najboljih
-    // krizanje
-    // mutacija
+    // slekcija najbolj
+    // ithis->dobrota = racunaj_dobrotu(bitVektor);
   }
 }
 
 
+double racunaj_dobrotu(vector<bool>& jedinka)
+{
+
+  
+  return 0;
+}
+
+
+	
+} 
+}
+}

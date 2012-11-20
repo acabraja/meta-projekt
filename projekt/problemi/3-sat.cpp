@@ -59,9 +59,18 @@ bool po_dobroti(Jedinka first,Jedinka second)
 	return false;
 }
 
-void mutacija(Jedinka& j,vjerojatnost_mutacije)
+void mutacija(Jedinka& j,double vjerojatnost_mutacije)
 {
 	if(drand() < vjerojatnost_mutacije)
-			for(int i=0;i < VEL_JEDINKE;i++) if(drand() < vjerojatnosti[i]) j.bitVektor[i] = !(j.bitVektor[i]);
+	{
+		double vjerojatnost;
+		for(int i=0;i < VEL_JEDINKE;i++)
+		{
+			if(j.bitVektor[i]==false) vjerojatnost=vjerojatnosti[i];
+			else vjerojatnost = 1-vjerojatnosti[i];
+			if(drand() < vjerojatnost) j.bitVektor[i] = !(j.bitVektor[i]);
+		}
+	}
 }
+
 

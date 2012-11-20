@@ -8,7 +8,7 @@ using namespace std;
 
 int main( int argc, char* argv[])
 {
-  vector<Jedinka> populacija(VEL_POP);
+  list<Jedinka> populacija(VEL_POP);
   
   stvori_novu_populaciju(populacija,PRAZNA);
   

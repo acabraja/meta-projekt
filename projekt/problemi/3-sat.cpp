@@ -1,4 +1,5 @@
 #include "3-sat.h"
+
 // Grnerator speudoslucajnih brojeva
 unsigned long init[4] = {0x123, 0x234, 0x345, 0x456}, length = 4;
 MTRand_int32 irand(init, length);
@@ -33,24 +34,59 @@ Jedinka::Jedinka(vector<bool> vb)
 /* moguce dopune: prvenstveno funkcija u slucaju IZ_POSTOJECE vrati nepotpun vektor jedinki gdje treba dodati mutaciju i krizanje
 /*                pa bi se moglo sloziti da se to automatski radi u ovoj funckciji što bi main ucinilo trivijalnim
 /************************************************************************************/
-void stvori_novu_populaciju(vector<Jedinka>& populacija,int status)
+void stvori_novu_populaciju(list<Jedinka>& populacija,int status)
 {
   if( status == PRAZNA )
     for(int i = 0; i < VEL_POP; ++i)
       populacija.push_back(Jedinka());
   else if( status == IZ_POSTOJECE )
   {
-    // slekcija najbolj
-    // ithis->dobrota = racunaj_dobrotu(bitVektor);
-  }
+    // tu imam sortiranu listu
+		// ostavljamo one koji imaju dobrotu ne lošiju od 15% od najbolje
+		list<Jedinka> pom;
+		double fitt = populacija.front()*0.85;
+		while(!populacija.empty()
+		{
+			if(populacija.front().dobrota > fitt)
+			{
+				pom.push_back(populacija.front());
+				populacija.pop_front();
+			}
+			else
+				break;
+		}
+		while(pom.size() < VEL_POP)
+		{
+			//uzmi nekoga i napravi krizanje
+			// napravi mutaciju 
+			// stavi u pom.
+		}
+	}
+	populacija.sort(po_dobroti);
 }
-
 
 double racunaj_dobrotu(vector<bool>& jedinka)
 {
-
-  
-  return 0;
+  // racunam na to da je formula globalno dvodim. polje jer svi ju samo citaju pa nema problema
+  // i to polje formula[BROJ_ZAGRADA][3]
+	
+	int count = 0;
+ 
+	for(int i = 0; i < BROJ_ZAGRADA; i++)
+	{
+		if(formula[i][0] > 0 && formula[i][1] > 0 && formula[i][2] > 0)
+		{
+			if(jedinka[formula[i][0]] == 1 || jedinka[formula[i][1]] == 1 || jedinka[forumla[i][2] == 1)
+				count++
+		}
+		else if((formula[i][0] < 0 && jadinka[abs(formula[i][0])] == 0) || 
+					(forumla[i][1] < 0 && jedinka[abs(formula[i][1])] == 0) ||
+					(formula[i][2] < 0 && jedinka[abs(formula[i][2])] == 0)){
+        count++ 	
+				}
+	}
+	
+  return count/BROJ_ZAGRADA;
 }
 
 bool po_dobroti(Jedinka first,Jedinka second)

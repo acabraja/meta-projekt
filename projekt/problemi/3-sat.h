@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <set>
+#include <math.h>
 #include "../mtrand/mtrand.h"
 
 using namespace std;
@@ -13,7 +14,7 @@ using namespace std;
 #define VEL_JEDINKE 100 // samo privremeno inace ce se to citat iz formule
 #define PRAZNA 1        
 #define IZ_POSTOJECE 2
-
+#define BROJ_ZAGRADA 5  // samo privremeno cita se iz formule
 
 class Zagrada;
 
@@ -43,7 +44,7 @@ class Jedinka
 };
 
 
-void stvori_novu_populaciju(Jedinka& populacija,int status);
+void stvori_novu_populaciju(list<Jedinka>& populacija,int status);
 
 double racunaj_dobrotu(vector<bool>& jedinka);
 

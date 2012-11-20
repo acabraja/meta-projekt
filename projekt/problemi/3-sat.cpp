@@ -73,4 +73,67 @@ void mutacija(Jedinka& j,double vjerojatnost_mutacije)
 	}
 }
 
+void krizanje(Jedinka& R1,Jedinka& R2,Jedinka& D1,Jedinka& D2,double vjerojatnost_krizanja,bool uniformno)	
+{
+	if(drand()<vjerojatnost_krizanja)
+	{
+		if(uniformno)				
+		{
+			vector<bool> r;				
+			vector<bool> rComp;			
+			for(int i = 0; i < VEL_JEDINKE; i++)
+			{
+				if((int)(irand()*drand()*10) % 10 < 5)
+				{
+					r.push_back(false);
+					rComp.push_back(true);
+				}
+				else
+				{
+					r.push_back(true);
+					rComp.push_back(false);
+				}	 
+			}
+			bool prviIdrugi;
+			bool prviILIdrugi;
+			for(int i = 0; i < VEL_JEDINKE; i++)
+			{
+				prviIdrugi = R1.bitVektor[i] && R2.bitVektor[i];		//logicko I 
+				prviILIdrugi = (R1.bitVektor[i] + R2.bitVektor[i]) % 2;		//ekskluzivno ILI
+				D1.bitVektor.push_back(prviIdrugi || (r[i] && prviILIdrugi));   //D1=R1*R2 + R*(R1 # R2)
+				D2.bitVektor.push_back(prviIdrugi || (rComp[i] && prviILIdrugi));            // D2=R1*R2 + Rcomp*(R1 # R2) # je iskljucivo ili
+			}
+		}
+		else					//tu sam mijenjala prve i zadnje razlike kak smo se dog
+		{
+			for(int i=0;i<VEL_JEDINKE;i++)
+			{
+				if(R1.bitVektor[i] != R2.bitVektor[i])
+				{
+					R1.bitVektor[i] = !(R1.bitVektor[i]);
+					R2.bitVektor[i] = !(R2.bitVektor[i]);
+					break;
+				}
+			}
+			for(int i=VEL_JEDINKE-1;i>=0;i--)
+			{
+				if(R1.bitVektor[i] != R2.bitVektor[i])
+				{
+					R1.bitVektor[i] = !(R1.bitVektor[i]);
+					R2.bitVektor[i] = !(R2.bitVektor[i]);
+					break;
+				}
+			}
+		}
+	}
+	else
+	{
+		D1.bitVektor = R1.bitVektor;
+		D1.dobrota=R1.dobrota;
+		D2.bitVektor = R2.bitVektor;
+		D2.dobrota=R2.dobrota;
+	}
+	
+}
+
 

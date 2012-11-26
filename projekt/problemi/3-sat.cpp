@@ -1,13 +1,14 @@
 #include "3-sat.h"
 
-// Grnerator speudoslucajnih brojeva
+
+// Generator speudoslucajnih brojeva
 unsigned long init[4] = {0x123, 0x234, 0x345, 0x456}, length = 4;
 MTRand_int32 irand(init, length);
 MTRand drand(time(0));
 
 //Konstruktor klase Jedinka
 
-Jedinka::Jedinka()
+Jedinka::Jedinka(int ident)
 {
   for(int i = 0; i < VEL_JEDINKE; ++i)
   {
@@ -19,6 +20,7 @@ Jedinka::Jedinka()
   
   this->dobrota = racunaj_dobrotu(bitVektor);
 }
+
 
 
 Jedinka::Jedinka(vector<bool> vb)
@@ -38,30 +40,59 @@ void stvori_novu_populaciju(list<Jedinka>& populacija,int status)
 {
   if( status == PRAZNA )
     for(int i = 0; i < VEL_POP; ++i)
-      populacija.push_back(Jedinka());
-  else if( status == IZ_POSTOJECE )
+      populacija.push_back(Jedinka(1));
+  
+  if( status == IZ_POSTOJECE )
   {
     // tu imam sortiranu listu
 		// ostavljamo one koji imaju dobrotu ne lošiju od 15% od najbolje
 		list<Jedinka> pom;
-		double fitt = populacija.front()*0.85;
-		while(!populacija.empty()
+		list<Jedinka>::iterator i;
+		double fitt = populacija.front().dobrota*0.95;
+
+		pom.push_back(populacija.front());		
+
+		for(i=populacija.begin();i!=populacija.end();i++)
 		{
-			if(populacija.front().dobrota > fitt)
-			{
-				pom.push_back(populacija.front());
-				populacija.pop_front();
-			}
+			if(i->dobrota < fitt)
+				pom.push_back(*i);
 			else
 				break;
 		}
+		i=populacija.begin();
 		while(pom.size() < VEL_POP)
 		{
-			//uzmi nekoga i napravi krizanje
-			// napravi mutaciju 
-			// stavi u pom.
+			// 3-turnirska selekcija
+			Jedinka a,b,c;
+
+			i=populacija.begin();
+			advance(i,irand()%VEL_POP);
+			a=*i;
+
+			i=populacija.begin();
+			advance(i,irand()%VEL_POP);
+			b=*i;
+
+			i=populacija.begin();
+			advance(i,irand()%VEL_POP);
+			c=*i;
+
+			list<Jedinka> jed;
+			jed.push_back(a);jed.push_back(b);jed.push_back(c);
+			jed.sort(po_dobroti);
+			Jedinka D1,D2;
+			i=jed.begin();
+			advance(i, 1);
+			krizanje( jed.front(), *i, D1, D2, 0.6756, true); //0.6756 dobiven empirijski
+			mutacija(D1,1);//*/*/*/
+			mutacija(D2,1);///*/*/*/
+			pom.push_back(D1);
+      if(pom.size() != VEL_POP -1)
+				pom.push_back(D2); 
 		}
-	}
+		pom.sort(po_dobroti);
+		populacija = pom;
+  }
 	populacija.sort(po_dobroti);
 }
 
@@ -76,17 +107,17 @@ double racunaj_dobrotu(vector<bool>& jedinka)
 	{
 		if(formula[i][0] > 0 && formula[i][1] > 0 && formula[i][2] > 0)
 		{
-			if(jedinka[formula[i][0]] == 1 || jedinka[formula[i][1]] == 1 || jedinka[forumla[i][2] == 1)
-				count++
+			if(jedinka[formula[i][0]-1] == 1 || jedinka[formula[i][1]-1] == 1 || jedinka[formula[i][2]-1] == 1)
+				count++;
 		}
-		else if((formula[i][0] < 0 && jadinka[abs(formula[i][0])] == 0) || 
-					(forumla[i][1] < 0 && jedinka[abs(formula[i][1])] == 0) ||
-					(formula[i][2] < 0 && jedinka[abs(formula[i][2])] == 0)){
-        count++ 	
+		else if( (formula[i][0] < 0 && jedinka[-formula[i][0]-1] == 0) || 
+					(formula[i][1] < 0 && jedinka[-formula[i][1]-1] == 0) ||
+					(formula[i][2] < 0 && jedinka[-formula[i][2]-1] == 0)){ 
+        count++;
 				}
 	}
 	
-  return count/BROJ_ZAGRADA;
+  return (count)/BROJ_ZAGRADA;
 }
 
 bool po_dobroti(Jedinka first,Jedinka second)

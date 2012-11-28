@@ -22,19 +22,19 @@ void sortiraj_formulu()
 	for (int i = 0; i < BROJ_ZAGRADA; i++)
 	{
 		int pom;
-		if(abs(formula[i][0]) > abs(formula[i][1]) 
+		if(abs(formula[i][0]) > abs(formula[i][1])) 
 		{
 			pom = formula[i][0];
 			formula[i][0] = formula[i][1];
 			formula[i][1] = pom;
 		}	
-		if(abs(formula[i][1]) > abs(formula[i][2]) 
+		if(abs(formula[i][1]) > abs(formula[i][2])) 
 		{
 			pom = formula[i][1];
 			formula[i][1] = formula[i][2];
 			formula[i][2] = pom;
 		}	
-		if(abs(formula[i][0]) > abs(formula[i][1]) 
+		if(abs(formula[i][0]) > abs(formula[i][1])) 
 		{
 			pom = formula[i][0];
 			formula[i][0] = formula[i][1];
@@ -45,13 +45,14 @@ void sortiraj_formulu()
 	{
 		for(int j=i;j<BROJ_ZAGRADA; j++)
 		{
-			if(abs(formula[i][0]) > abs(formula[i][1]) 
+			if(abs(formula[i][0]) > abs(formula[i][1])) 
 			{	
 				int *pom = formula[i];
 				formula[i] = formula[j];
 				formula[j] = pom;
 			}
 		}
+	}
 }
 
 
@@ -101,8 +102,8 @@ list<Jedinka> populacija;
 			if (ub<0) vjer_pom[-ub-1][0]++; 
 			if (ub==0) cout << "varijabla 0!" << endl;
 		}
-		sortiraj_formulu() // sortiranje formule u svrhu analize (mogucnost paralelizacije)
-//računanje vjerojatnosti
+		sortiraj_formulu(); // sortiranje formule u svrhu analize (mogucnost paralelizacije)
+	//računanje vjerojatnosti
 	for (int i=0; i<VEL_JEDINKE; i++)
 		vjerojatnosti[i]=(double)vjer_pom[i][1]/(vjer_pom[i][0]+vjer_pom[i][1]);
 
@@ -132,8 +133,8 @@ stvori_novu_populaciju(populacija, PRAZNA);
 
 //for(list<Jedinka>::iterator i=populacija.begin();i!=populacija.end();i++)
 //	cout << (*i).dobrota << endl;
-
-for (int i=0; i<BROJ_ITERACIJA; i++)
+int i;
+for ( i=0; i<BROJ_ITERACIJA; i++)
 	{
 	stvori_novu_populaciju(populacija, IZ_POSTOJECE);
 	
@@ -144,3 +145,4 @@ for (int i=0; i<BROJ_ITERACIJA; i++)
 
 return 0;
 }
+

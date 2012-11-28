@@ -122,7 +122,8 @@ double racunaj_dobrotu(vector<bool>& jedinka)
 
 bool po_dobroti(Jedinka first,Jedinka second)
 {
-	if(first.dobrota > second.dobrota) return true;  //ovaj sort ti radi,stavis da je populacija list<Jedinka> pop i pozoves sa pop.sort(po_dobroti),sortira ti silazno
+	if(first.dobrota > second.dobrota) return true; 
+	 //ovaj sort ti radi,stavis da je populacija list<Jedinka> pop i pozoves sa pop.sort(po_dobroti),sortira ti silazno
 	return false;
 }
 

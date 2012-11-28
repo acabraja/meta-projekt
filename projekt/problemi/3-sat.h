@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <map>
 #include <vector>
@@ -23,6 +21,13 @@ using namespace std;
 extern int BROJ_ITERACIJA, VEL_JEDINKE, BROJ_ZAGRADA;
 extern int **formula;
 extern double *vjerojatnosti;
+
+//map<int,pair<vector<int>, int> > formula
+
+class Zagrada{
+	list<int> el_zagrade
+	int tezina;
+};
 
 //pomoćne varijable i polja
 extern int ub; 		//učitani broj

@@ -1,6 +1,6 @@
 using namespace std;
 
-
+class Zagrada;
 
 // KLASE
 
@@ -10,11 +10,11 @@ bool manji(int a, int b)
 	else return false;
 }
 
-bool manja_zagrada(const Zagrada& A, const Zagrada& B)
+/*bool manja_zagrada(Zagrada A, Zagrada B)
 {
 	if( A.varijable.first() <= B.varijable.first() ) return true;
 	else return false;
-}
+}*/
 
 class Zagrada{
 public:
@@ -46,5 +46,5 @@ public:
 // TODO Racunaj_egzaktno()
   //redukcija
   //egzaktni racun
-vector<int> Vrati_vektor_varijabli(list<Zagrada>::iterator i, list<Zagrada>::iterator j);
+//vector<int> Vrati_vektor_varijabli(list<Zagrada>::iterator i, list<Zagrada>::iterator j);
 

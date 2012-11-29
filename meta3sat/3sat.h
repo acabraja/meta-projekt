@@ -38,6 +38,11 @@ public:
 // LISTA FUNKCIJA
 
 // TODO Genetski_algoritam()
+vector<bool> genetski( int velicina_populacije , int broj_generacija , set<int>& varijable );
+set<int> pronadi_zagrade( set<int>& varijable );
+void azuriraj_vjerojatnosti( set<int>& varijable );
+double racunaj_dobrotu( vector<bool>& bitVektor , vector<int>& varijable , set<int>& zagrade );
+bool zadovoljena(int ID,vector<bool>& bitVektor,vector<int>& varijable);  //provjerava je li zagrada zadovoljena
    // redukcija
    // mutacija
    // krizanje

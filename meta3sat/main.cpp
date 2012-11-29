@@ -14,7 +14,7 @@
 //GLOBALNE VARIJABLE
 // moze i drugacije
 vector<int> tezine;
-map<int, list<int> > veze_var_zagrada;
+map<int, list<int> > veze_var_zagrada;  //meni bi bilo bolje da je tu set,ako je to moguce 
 map<int, set<int> > veze_varijabli;
 vector<double> vjerojatnosti; // TODO posebna funkcija koja racuna vjerojatnosti prije svake generacije (Anamarija)
 list<Zagrada> Formula;

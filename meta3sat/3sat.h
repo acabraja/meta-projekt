@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cstdlib>
 #include<string>
 #include<vector>
 #include<list>
@@ -6,12 +7,13 @@
 #include<cmath>
 #include<map>
 #include<cstdio>
-#include"mtrand.h"
+#include"mtrand/mtrand.h"
 #include<time.h>
 #include<set>
+#include<pthread.h>
 using namespace std;
 
-
+/**********EXTERN********************/
 class Zagrada;
 
 extern vector<int> tezine;
@@ -20,28 +22,25 @@ extern map<int, set<int> > veze_var_zagrada;
 extern vector<double> vjerojatnosti; 
 extern list<Zagrada> Formula;
 
+/************************************/
+
+
+                                      /* K L A S E */ 
 class Zagrada{
-public:
-int id;
-list<int> varijable;
-int tezina;
-Zagrada(int a, int b, int c, int ID)
-{
-	this->tezina = 1;
-	this->id = ID;
-	// odmah sortiramo listu
-	this->varijable.push_back(a);
-	this->varijable.push_back(b);
-	this->varijable.push_back(c);
-}	
+  public:
+    int id;
+    list<int> varijable;
+    int tezina;
+    Zagrada(int a, int b, int c, int ID)
+    {
+	    this->tezina = 1;
+	    this->id = ID;
+	    // odmah sortiramo listu
+	    this->varijable.push_back(a);
+	    this->varijable.push_back(b);
+	    this->varijable.push_back(c);
+    }	
 };
-// LISTA FUNKCIJA
-
-// TODO Genetski_algoritam()
-
-
-
-// KLASE
 
 class Jedinka
 {
@@ -66,6 +65,10 @@ public:
 };
 
 
+                                        /* F U N K C I J E */
+
+void *thread_main(int *const d); 
+
 vector<bool> genetski( int velicina_populacije , int broj_generacija , set<int>& varijable , double vjerojatnost_mutacije , double vjerojatnost_krizanja );
 
 set<int> pronadi_zagrade( vector<int>& varijable );
@@ -85,8 +88,6 @@ void kopiraj_elitu(Populacija &p , Populacija &q , vector<int>& varijable , set<
 Jedinka odaberiRoditelja(Populacija &p);
 
 bool po_dobroti(Jedinka first,Jedinka second);
-
-
 
 
 

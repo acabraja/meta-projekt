@@ -1,19 +1,33 @@
 #include"3sat.h"
 
+
+              /* MTRADN za generiranje slucajnih brojeva
+                Koristi time() kao pomocni pseudo slucaj */
 unsigned long init[4] = {0x123, 0x234, 0x345, 0x456}, length = 4;
-MTRand_int32 irand(init, length);
-MTRand drand(time(0));
+MTRand_int32 irand(init, length); // irand() slucajni int
+MTRand drand(time(0));            // drand() slucajni  double iz (0,1)
 
 
-//sluzi za sortiranje populacije
-bool po_dobroti(Jedinka first,Jedinka second)
+                    /* prima index vektora nezavisni_skupovi i obraduje dani skup*/
+                    
+void *thread_main(int *const d)
 {
-if(first.dobrota > second.dobrota) return true;
-//ovaj sort ti radi,stavis da je populacija list<Jedinka> pop i pozoves sa pop.sort(po_dobroti),sortira ti silazno
-return false;
+  //svaka dretva zna index d gdje se u vektoru nezavisni_skupovi nalazi skup koji ona treba obraditi
+  // genetski
+  // egzaktno
 }
 
-//funkcija koja vraca skup zagrada koje obraduje genetski algoritam
+                       /* Sortiranje populacije*/
+   /* populacija list<Jedinka> pop i poziv sa pop.sort(po_dobroti) sortira silazno*/
+   
+bool po_dobroti(Jedinka first,Jedinka second)
+{
+  if(first.dobrota > second.dobrota) return true;
+  return false;
+}
+
+               /* vraca skup zagrada koje obraduje genetski algoritam*/
+               
 set<int> pronadi_zagrade( vector<int>& varijable )
 {
   set<int> zagrade;

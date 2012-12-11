@@ -1,3 +1,13 @@
+#include<cstdlib>
+#include<pthread.h>
+#include<iostream>
+#include<string>
+#include<vector>
+#include<list>
+#include<fstream>
+#include<cmath>
+#include<map>
+#include<set>
 using namespace std;
 
 class Zagrada;
@@ -36,8 +46,7 @@ public:
 
 
 // LISTA FUNKCIJA
-
-// TODO Genetski_algoritam()
+// funkcije za genetski algoritam
 vector<bool> genetski( int velicina_populacije , int broj_generacija , set<int>& varijable );
 set<int> pronadi_zagrade( set<int>& varijable );
 void azuriraj_vjerojatnosti( set<int>& varijable );

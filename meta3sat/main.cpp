@@ -36,7 +36,7 @@ int main()
         
 	// citanje iz datoteke
 	
-	ifstream formula("../projekt/formula2.cnf");
+	ifstream formula("../projekt/formula.cnf");
 	if(! formula.is_open() ) 
 	{
 		cout<<"Greska kod otvaranja"<<endl;

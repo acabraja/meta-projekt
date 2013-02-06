@@ -9,7 +9,7 @@ MTRand drand(time(0));            // drand() slucajni  double iz (0,1)
 
 
                     /* prima index vektora nezavisni_skupovi i obraduje dani skup*/
-                    
+
 void *thread_main(int *const d)
 {
   //svaka dretva zna index d gdje se u vektoru nezavisni_skupovi nalazi skup koji ona treba obraditi
@@ -19,7 +19,7 @@ void *thread_main(int *const d)
 
                        /* Sortiranje populacije*/
    /* populacija list<Jedinka> pop i poziv sa pop.sort(po_dobroti) sortira silazno*/
-   
+
 bool po_dobroti(Jedinka first,Jedinka second)
 {
   if(first.dobrota > second.dobrota) return true;
@@ -27,7 +27,7 @@ bool po_dobroti(Jedinka first,Jedinka second)
 }
 
                /* vraca skup zagrada koje obraduje genetski algoritam*/
-               
+
 set<int> pronadi_zagrade( vector<int>& varijable )
 {
   set<int> zagrade;
@@ -87,17 +87,17 @@ bool zadovoljena(int ID,vector<bool>& bitVektor,vector<int>& varijable)
 	return false;
 }
 
-// racuna dobrotu 
+// racuna dobrotu
 double racunaj_dobrotu( vector<bool>& bitVektor , vector<int>& varijable , set<int>& zagrade )
 {
-	double ukupna_tezina=0;
-	double tezina_zadovoljenih=0;
-	set<int>::iterator i;
+    double ukupna_tezina=0;
+    double tezina_zadovoljenih=0;
+    set<int>::iterator i;
 	list<int>::iterator j;
-	for( i = zagrade.begin(); i != zagrade.end(); i++)
+	for( i = zagrade.begin(); i != zagrade.end(); i++ )
 	{
 		ukupna_tezina += (double)tezine[*i];
-		if(zadovoljena(*i,bitVektor,varijable))	tezina_zadovoljenih += (double)tezine[*i];  
+		if(zadovoljena(*i,bitVektor,varijable))	tezina_zadovoljenih += (double)tezine[*i];
 	}
 	return tezina_zadovoljenih/ukupna_tezina;
 }
@@ -115,7 +115,7 @@ Jedinka::Jedinka(vector<int>& varijable , vector<double>& vjerojatnosti)
 		{
 			if(vjerojatnosti[i] == 1) bitVektor[i] = 1;
 			else bitVektor[i] = 0;
-		}		
+		}
 	}
 }
 
@@ -205,11 +205,11 @@ void krizanje(Jedinka prviRoditelj , Jedinka drugiRoditelj , Jedinka& prvoDijete
 					}
 				}
 			}
-			
+
 		}
 		else{
 		int tockaPrekida = (irand() % prviRoditelj.bitVektor.size());
-		for(int i = 0 ; i < prviRoditelj.bitVektor.size() ; i++)	
+		for(int i = 0 ; i < prviRoditelj.bitVektor.size() ; i++)
 		{
 			if( i < tockaPrekida )
 			{
@@ -233,7 +233,7 @@ void krizanje(Jedinka prviRoditelj , Jedinka drugiRoditelj , Jedinka& prvoDijete
 	}
 }
 
-//prve dvije jedinke te njihovi sigurno mutirani klonovi idu direktno u drugu populaciju 
+//prve dvije jedinke te njihovi sigurno mutirani klonovi idu direktno u drugu populaciju
 void kopiraj_elitu(Populacija &p , Populacija &q , vector<int>& varijable , set<int>& zagrade , vector<double>& vjerojatnosti)
 {
 	list<Jedinka>::iterator i = p.jedinke.begin();
@@ -272,7 +272,7 @@ void Populacija::evaluirajPopulaciju(vector<int>& varijable , set<int>& zagrade)
 		ukupnaDobrota += i->dobrota;
 	}
 	jedinke.sort(po_dobroti);
-	
+
 }
 
 

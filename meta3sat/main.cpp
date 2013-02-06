@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
             
             /* Citanje iz datoteke */
   
-  ifstream formula("../projekt/formula.cnf");
+  ifstream formula("../projekt/formula2.cnf");
   
   if(! formula.is_open() )
   {

@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     // izbacuje zagrade koje su tautologije (ako je tautologija nemoj tu zagradu uzet u obzir)
     if(! ((abs(a) == abs(b) && a != b) || (abs(a) == abs(c) && a != c) || (abs(b) == abs(c) && b != c)))
     {
-      Formula.push_back( Zagrada( a, b, c,count) );
+      Formula.push_back( Zagrada( a, b, c, count) );
       //tezine.push_back(1);
       pomocne_tezine.push_back(1);
       
@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
 
                 /*Raspodjela posla po dretvama */
                 
-  int P = nezavisni_skupovi.size();
+  /*int P = nezavisni_skupovi.size();
   pthread_t *pth;
 
   if( !(pth = ( pthread_t* )malloc( P * sizeof(pthread_t) ) ) )
@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
       cout<<"Join error!"<<endl;
       return EXIT_FAILURE;
     }
-  }
+  }*/
  
                                /* testiranje rada funkcija */
   // PRAVILO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -163,8 +163,9 @@ int main(int argc, char* argv[])
     for(skup = (*mapa).begin(); skup != (*mapa).end(); skup++)
       cout<<*skup<<", ";
     cout<<")"<<endl;
-    vector<bool> rjesenje = genetski(1000 ,100, *mapa , 0.05 , 0.7);
+    vector<bool> rjesenje = genetski(100 ,500, *mapa , 0.05 , 0.6);
     for( int i = 0 ; i <rjesenje.size();i++) cout<<rjesenje[i]<<" ";
+    cout<<endl;
   }
 
   return 0;

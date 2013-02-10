@@ -40,98 +40,80 @@ set<int> pronadi_zagrade( vector<int>& varijable )
 	return zagrade;
 }
 
-//azurira vjerojatnosti nakon svake generacije
-void azuriraj_vjerojatnosti( vector<int>& varijable ,vector<double>& vjerojatnosti , bool prviPut)
-{
-	set<int>::iterator j;
-	double ukupnaTezina=0;
-	double tezinaPozitivnih=0;
-	tezine = pomocne_tezine;
-	//tezine = pomocne_tezine;
-	for( int i = 0; i < varijable.size(); i++  )
-	{
-		for( j = veze_var_zagrada[varijable[i]].begin() ; j != veze_var_zagrada[varijable[i]].end() ; j++ )
-		{
-			tezinaPozitivnih += (double)tezine[*j];
-			ukupnaTezina += (double)tezine[*j];
-		}
-		for( j = veze_var_zagrada[-varijable[i]].begin() ; j != veze_var_zagrada[-varijable[i]].end() ; j++ ) ukupnaTezina += (double)tezine[*j];
-		if(prviPut) vjerojatnosti.push_back(tezinaPozitivnih/ukupnaTezina);
-		else vjerojatnosti[i] = (tezinaPozitivnih/ukupnaTezina);
-	}
-}
+
 
 //vraca je li zagrada zadovoljena
 bool zadovoljena(int ID,vector<bool>& bitVektor,vector<int>& varijable)
 {
-	list<Zagrada>::iterator i = Formula.begin();
-	advance(i,ID);
+  //cout<<bitVektor.size()<<endl;
+	list<Zagrada>::iterator i;
+	for(i = Formula.begin(); i != Formula.end();i++) if(i->id == ID) break;
 	list<int>::iterator j;
 	int k;
 	int var;
-	int index;
 	for( j = i->varijable.begin(); j != i->varijable.end(); j++)
 	{
+	  int index = -1;
 		if((*j) < 0 ) var = -(*j);
 		else var = (*j);
+		//cout<<var<<"varijabla"<<endl;
 		for( k = 0; k < varijable.size(); k++)
 		{
-			if( varijable[k] == var);
+			if( varijable[k] == var)
+			{
 			index = k;
 			break;
+			}
+			//if(ID == 1020)cout<<"prije "<<var<<" "<<index<<endl;
 		}
-		if( bitVektor[index] == 0 && (*j) < 0) return true;
-		if( bitVektor[index]== 1 && (*j) > 0) return true;
+		if(index != -1 && bitVektor[index] == 0 && (*j) < 0)
+		{
+		//cout<<"prosao "<<ID<<endl;
+		return true;
+		}
+		if(index != -1 && bitVektor[index]== 1 && (*j) > 0)
+		{
+		  //cout<<"prosao "<<ID<<endl;
+		  return true;
+		}
 	}
-	pomocne_tezine[ID]++;
+	//cout<<"prosao "<<ID<<endl;
 	return false;
 }
 
 // racuna dobrotu
 double racunaj_dobrotu( vector<bool>& bitVektor , vector<int>& varijable , set<int>& zagrade )
 {
-    double ukupna_tezina=0;
-    double tezina_zadovoljenih=0;
+    int tezina_zadovoljenih = 0;
     set<int>::iterator i;
-	list<int>::iterator j;
+	  list<int>::iterator j;
+	  int ukupna_tezina = zagrade.size();
 	for( i = zagrade.begin(); i != zagrade.end(); i++ )
 	{
-		ukupna_tezina += (double)tezine[*i];
-		if(zadovoljena(*i,bitVektor,varijable))	tezina_zadovoljenih += (double)tezine[*i];
+		if(zadovoljena(*i,bitVektor,varijable))	tezina_zadovoljenih++;
 	}
-	return tezina_zadovoljenih/ukupna_tezina;
+	return (double)tezina_zadovoljenih/(double)ukupna_tezina;
 }
 
-Jedinka::Jedinka(vector<int>& varijable , vector<double>& vjerojatnosti)
+Jedinka::Jedinka(vector<int>& varijable)
 {
 	for(int i=0; i < varijable.size(); i++)
 	{
-		if(vjerojatnosti[i] != 1 && vjerojatnosti[i] != 0)
-		{
+			if(veze_var_zagrada[varijable[i]].size() == 0) bitVektor[i].push_back(false);
+			else if(veze_var_zagrada[-varijable[i]].size()== 0) bitVektor[i].push_back(true);
+			else 
+			{
 			if((int)(drand()*irand()) % 10 < 5) bitVektor.push_back(false);
 			else bitVektor.push_back(true);
-		}
-		else
-		{
-			if(vjerojatnosti[i] == 1) bitVektor[i] = 1;
-			else bitVektor[i] = 0;
-		}
+			}
 	}
 }
 
 
-void mutacija(Jedinka& j,double vjerojatnostMutacije , vector<double>& vjerojatnosti)
+void mutacija(Jedinka& j,double vjerojatnostMutacije)
 {
-	if(drand() < vjerojatnostMutacije)
-	{
-		for(int i=0; i < j.bitVektor.size(); i++)
-		{
-			double vjerojatnost;
-			if(j.bitVektor[i] == 0) vjerojatnost = vjerojatnosti[i];
-			else vjerojatnost = 1 - vjerojatnosti[i];
-			if(drand() < vjerojatnost) j.bitVektor[i] = !(j.bitVektor[i]);
-		}
-	}
+
+		for(int i=0; i < j.bitVektor.size(); i++) if(drand() < vjerojatnostMutacije) j.bitVektor[i] = !(j.bitVektor[i]);	
 }
 
 
@@ -159,7 +141,7 @@ Jedinka odaberiRoditelja(Populacija &p)
 }
 
 
-void krizanje(Jedinka prviRoditelj , Jedinka drugiRoditelj , Jedinka& prvoDijete , Jedinka& drugoDijete , double vjerojatnostKrizanja ,vector<double>& vjerojatnosti ,bool uniformno)
+void krizanje(Jedinka prviRoditelj , Jedinka drugiRoditelj , Jedinka& prvoDijete , Jedinka& drugoDijete , double vjerojatnostKrizanja ,bool uniformno)
 {
 	if(drand() < vjerojatnostKrizanja)
 	{
@@ -186,24 +168,8 @@ void krizanje(Jedinka prviRoditelj , Jedinka drugiRoditelj , Jedinka& prvoDijete
 			{
 				prviIdrugi = prviRoditelj.bitVektor[i] && drugiRoditelj.bitVektor[i]; //logicko I
 				prviILIdrugi = (prviRoditelj.bitVektor[i] + drugiRoditelj.bitVektor[i]) % 2; //ekskluzivno ILI
-				if(vjerojatnosti[i] != 0 && vjerojatnosti[i] != 1)
-				{
 				prvoDijete.bitVektor.push_back(prviIdrugi || (r[i] && prviILIdrugi)); //D1=R1*R2 + R*(R1 # R2)
 				drugoDijete.bitVektor.push_back(prviIdrugi || (rComp[i] && prviILIdrugi)); // D2=R1*R2 + Rcomp*(R1 # R2) # je iskljucivo ili
-				}
-				else
-				{
-					if(vjerojatnosti[i] == 1)
-					{
-					prvoDijete.bitVektor.push_back(1);
-					drugoDijete.bitVektor.push_back(1);
-					}
-					else
-					{
-					prvoDijete.bitVektor.push_back(0);
-					drugoDijete.bitVektor.push_back(0);
-					}
-				}
 			}
 
 		}
@@ -234,7 +200,7 @@ void krizanje(Jedinka prviRoditelj , Jedinka drugiRoditelj , Jedinka& prvoDijete
 }
 
 //prve dvije jedinke te njihovi sigurno mutirani klonovi idu direktno u drugu populaciju
-void kopiraj_elitu(Populacija &p , Populacija &q , vector<int>& varijable , set<int>& zagrade , vector<double>& vjerojatnosti)
+void kopiraj_elitu(Populacija &p , Populacija &q , vector<int>& varijable , set<int>& zagrade)
 {
 	list<Jedinka>::iterator i = p.jedinke.begin();
 	Jedinka m1,m2;
@@ -243,20 +209,20 @@ void kopiraj_elitu(Populacija &p , Populacija &q , vector<int>& varijable , set<
 	advance(i,1);
 	q.jedinke.push_back(*i);
 	m2.bitVektor = (*i).bitVektor;
-	mutacija(m1 , 1 , vjerojatnosti);
+	mutacija(m1 , 1);
 	m1.dobrota = racunaj_dobrotu(m1.bitVektor , varijable , zagrade);
-	mutacija(m2 , 1, vjerojatnosti);
+	mutacija(m2 , 1);
 	q.jedinke.push_back(m1);
 	m2.dobrota = racunaj_dobrotu(m2.bitVektor , varijable , zagrade);
 	q.jedinke.push_back(m2);
-	q.jedinke.push_back(Jedinka(varijable,vjerojatnosti));
+	q.jedinke.push_back(Jedinka(varijable));
 }
 
-Populacija::Populacija(int velicinaPopulacije , vector<int>& varijable, vector<double>& vjerojatnosti)
+Populacija::Populacija(int velicinaPopulacije , vector<int>& varijable)
 {
 	for(int i = 0; i< velicinaPopulacije; i++)
 	{
-		Jedinka j(varijable,vjerojatnosti);
+		Jedinka j(varijable);
 		jedinke.push_back(j);
 	}
 
@@ -284,45 +250,41 @@ vector<bool> genetski( int velicina_populacije , int broj_generacija , set<int>&
 	bool uniformno = 1;
 	//kopira skup varijabli u vektor
 	for( i = skupVarijabli.begin() ; i != skupVarijabli.end() ; i++ ) varijable.push_back(*i);
+	cout<<varijable[80]<<endl;
 	//trazi zagrade koje obraduje ovaj genetski algoritam
 	zagrade = pronadi_zagrade(varijable);
 	//azirarmo vjerojatnosti mutacije
-	vector<double> vjerojatnosti;
-	azuriraj_vjerojatnosti(varijable,vjerojatnosti,true);
-	Populacija populacija(velicina_populacije,varijable,vjerojatnosti);
+	Populacija populacija(velicina_populacije,varijable);
+	//cout<<populacija.jedinke.size()<<endl;
 	populacija.evaluirajPopulaciju(varijable,zagrade);
 	//ako smo pronasli rjesenje vratimo tu interpretaciju
 	if(populacija.jedinke.begin()->dobrota == 1) return populacija.jedinke.begin()->bitVektor;
-	cout<<populacija.jedinke.begin()->dobrota<<endl;
-	for(int i = 0; i < populacija.jedinke.begin()->bitVektor.size();i++) cout<<populacija.jedinke.begin()->bitVektor[i]<<" ";
+	//cout<<"prosao"<<endl;
+	//cout<<populacija.jedinke.begin()->dobrota<<endl;
+	//for(int i = 0; i < populacija.jedinke.begin()->bitVektor.size();i++) cout<<populacija.jedinke.begin()->bitVektor[i]<<" ";
 	Populacija pomocna;
-	int m = 2;
-	for(int i = 2 ; i < broj_generacija ; i++)
+	for(int i = 2 ; i < broj_generacija + 1 ; i++)
 	{
-		if( m > 0.7*broj_generacija){
-		vjerojatnost_mutacije = 0.8;
-		vjerojatnost_krizanja = 0.75;
-		}
-		kopiraj_elitu(populacija,pomocna,varijable,zagrade,vjerojatnosti);
+	//cout<<"prva"<<endl;
+		kopiraj_elitu(populacija,pomocna,varijable,zagrade);
 		for(int k = 6 ; k < velicina_populacije ; k+=2)
 		{
+		//cout<<"druga"<<endl;
 			Jedinka prvoDijete;
 			Jedinka drugoDijete;
-			krizanje(odaberiRoditelja(populacija),odaberiRoditelja(populacija),prvoDijete,drugoDijete,vjerojatnost_krizanja,vjerojatnosti,uniformno);
-			mutacija(prvoDijete,vjerojatnost_mutacije,vjerojatnosti);
+			krizanje(odaberiRoditelja(populacija),odaberiRoditelja(populacija),prvoDijete,drugoDijete,vjerojatnost_krizanja,uniformno);
+			mutacija(prvoDijete,vjerojatnost_mutacije);
 			pomocna.jedinke.push_back(prvoDijete);
-			mutacija(drugoDijete , vjerojatnost_mutacije,vjerojatnosti);
+			mutacija(drugoDijete , vjerojatnost_mutacije);
 			pomocna.jedinke.push_back(drugoDijete);
 		}
-		azuriraj_vjerojatnosti(varijable,vjerojatnosti,false);
 		pomocna.evaluirajPopulaciju(varijable,zagrade);
-		if(pomocna.jedinke.begin()->dobrota == 1) return pomocna.jedinke.begin()->bitVektor;
+		if(pomocna.jedinke.begin()->dobrota > 0.99 ) return pomocna.jedinke.begin()->bitVektor;
 		populacija.jedinke = pomocna.jedinke;
 		populacija.ukupnaDobrota = pomocna.ukupnaDobrota;
 		cout<<populacija.jedinke.begin()->dobrota<<endl;
 		pomocna.jedinke.clear();
 		pomocna.ukupnaDobrota = 0;
-		m++;
 	}
 	vector<bool> prazan;
 	return prazan;

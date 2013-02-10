@@ -34,7 +34,7 @@ class Zagrada{
     Zagrada(int a, int b, int c, int ID)
     {
 	    this->tezina = 1;
-	    this->id = ID;
+	    this->id =ID;
 	    // odmah sortiramo listu
 	    this->varijable.push_back(a);
 	    this->varijable.push_back(b);
@@ -48,7 +48,7 @@ public:
 	vector<bool> bitVektor;
 	double dobrota;
 
-	Jedinka(vector<int>& varijable , vector<double>& vjerojatnosti);
+	Jedinka(vector<int>& varijable);
 	Jedinka(){}
 
 };
@@ -60,7 +60,7 @@ public:
 	double ukupnaDobrota;
 
 	Populacija(){};
-	Populacija(int velicinaPopulacije , vector<int>& varijable, vector<double>& vjerojatnosti); //napravi konstruktor
+	Populacija(int velicinaPopulacije , vector<int>& varijable); //napravi konstruktor
 	void evaluirajPopulaciju(vector<int>& varijable , set<int>& zagrade); //treba napisati
 };
 
@@ -73,17 +73,17 @@ vector<bool> genetski( int velicina_populacije , int broj_generacija , set<int>&
 
 set<int> pronadi_zagrade( vector<int>& varijable );
 
-void azuriraj_vjerojatnosti( vector<int>& varijable , vector<double>& vjerojatnosti, bool prviPut);
+void azuriraj_vjerojatnosti( vector<int>& varijable , bool prviPut);
 
 double racunaj_dobrotu( vector<bool>& bitVektor , vector<int>& varijable , set<int>& zagrade );
 
 bool zadovoljena(int ID,vector<bool>& bitVektor,vector<int>& varijable);  //provjerava je li zagrada zadovoljena
 
-void mutacija(Jedinka& j,double vjerojatnostMutacije , vector<double>& vjerojatnosti);
+void mutacija(Jedinka& j,double vjerojatnostMutacije);
 
-void krizanje(Jedinka& prviRoditelj , Jedinka& drugiRoditelj , Jedinka& prvoDijete , Jedinka& drugoDijete , double vjerojatnostKrizanja,vector<double>& vjerojatnosti ,bool uniformno);
+void krizanje(Jedinka& prviRoditelj , Jedinka& drugiRoditelj , Jedinka& prvoDijete , Jedinka& drugoDijete , double vjerojatnostKrizanja ,bool uniformno);
 
-void kopiraj_elitu(Populacija &p , Populacija &q , vector<int>& varijable , set<int>& zagrade , vector<double>& vjerojatnosti);
+void kopiraj_elitu(Populacija &p , Populacija &q , vector<int>& varijable , set<int>& zagrade);
 
 Jedinka odaberiRoditelja(Populacija &p);
 

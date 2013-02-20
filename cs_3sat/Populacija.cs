@@ -24,7 +24,7 @@ namespace SolverForSatProblem
             this.dobrotaPopulacije = 0;
             for (int i = 0; i < velicinaPopulacije; i++)
             {
-                populacija[i] = new Jedinka(brojVarijabli, varijable, veze_var_zagrada, rand);
+                this.populacija[i] = new Jedinka(brojVarijabli, varijable, veze_var_zagrada, rand);
             }
         }
 
@@ -32,8 +32,8 @@ namespace SolverForSatProblem
         {
             for (int i = 0; i < velicinaPopulacije; i++)
             {
-                populacija[i].RacunajDobrotuSTezinom1(Formula.Count, varijable, Formula, veze_var_zagrada);
-                dobrotaPopulacije += populacija[i].dobrota;
+                this.populacija[i].RacunajDobrotuSTezinom1(Formula.Count, varijable, Formula, veze_var_zagrada);
+                this.dobrotaPopulacije += this.populacija[i].dobrota;
             }
             Array.Sort(this.populacija);
         }

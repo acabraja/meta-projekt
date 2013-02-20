@@ -63,7 +63,7 @@ namespace SolverForSatProblem
                 if (trenutna.populacija[0].dobrota == 1) return trenutna.populacija[0].bitovi;
                 azurirajVjerojatnosti(vjerojatnosti,varijable,veze_var_zagrada);
                 Populacija novaGeneracija = new Populacija(velicinaPopulacije);
-                trenutna.KopirajElitu(novaGeneracija, 2, vjerojatnosti, varijable,veze_var_zagrada, rand);
+                trenutna.KopirajElitu(novaGeneracija, 2, vjerojatnosti, varijable, veze_var_zagrada, rand);
                 for (int j = 2; j < velicinaPopulacije; j += 2)
                 {
                     Jedinka prviRoditelj = trenutna.OdaberiRoditelja(true, rand);

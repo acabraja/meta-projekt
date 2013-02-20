@@ -18,7 +18,7 @@ namespace SolverForSatProblem
             try
             {
                 /* Read cnf from txt file*/
-                using (StreamReader sr = new StreamReader("../../formule/formula.txt"))
+                using (StreamReader sr = new StreamReader("../../formule/formula2.txt"))
                 {
                     String line;
                     int[] elements = new int[3];
@@ -157,23 +157,17 @@ namespace SolverForSatProblem
         public static void Main(string[] args)
         {
             PripremiFormulu();
-            List<Zagrada> zagrada = new List<Zagrada>();
+            //List<Zagrada> zagrada = new List<Zagrada>();
 
-            /*foreach (List<int> l in nezavisni_skupovi)
+			Console.WriteLine("\n ovo si nezavisni skupovi:");
+			Console.WriteLine("---------------------");
+            foreach (List<int> l in nezavisni_skupovi)
             {
                 foreach (int i in l)
                     Console.Write("{0} ", i);
                 Console.Write("\n");
             }
-            Console.WriteLine(veze_varijabli.Count);
-            
-            foreach (var pair in veze_varijabli)
-            {
-                Console.WriteLine("Kljuc : {0}",pair.Key);
-                foreach(int elem in pair.Value)
-                    Console.Write("{0}, ",elem);
-                Console.Write("\n");
-            }*/
+
             varijable.Sort();
             Console.WriteLine("\nIspis svih varijabli");
             Console.WriteLine("---------------------");
@@ -188,7 +182,7 @@ namespace SolverForSatProblem
                     Console.Write("{0} ", ele);
                 Console.Write("\n");
             }
-            Console.WriteLine("\nTko je s kim povezan:");
+            /*Console.WriteLine("\nTko je s kim povezan:");
             Console.WriteLine("---------------------");
             foreach (var k in veza_var_zagrada)
             {
@@ -199,19 +193,18 @@ namespace SolverForSatProblem
                         Console.Write("{0} ", ele);
                     Console.Write("\n");
                 }
-            }
+            }*/
             //varijable.Sort();
             //zagrada = Rezolucija.RezolucijaFormule1(Zagrade, veza_var_zagrada, varijable, 0);
-            Console.WriteLine(veza_var_zagrada.Count);
             bool[] interpretacija;
-            interpretacija = GenetskiAlgoritam.genetskiAlgoritam(50, 100, 0.7, 0.05, true, true, varijable, Zagrade, veza_var_zagrada);
+            interpretacija = GenetskiAlgoritam.genetskiAlgoritam(6, 10, 0.7, 0.05, true, true, varijable, Zagrade, veza_var_zagrada);
 
             Console.WriteLine("Dobivena interpretacija");
             foreach (bool ine in interpretacija)
-                Console.Write("{0} ", ine);
+            	Console.Write("{0} ", ine);
 
-            Console.Write("\n \n \nPress any key to continue . . . ");
-            Console.ReadKey(true);
+            /*Console.Write("\n \n \nPress any key to continue . . . ");
+            Console.ReadKey(true);*/
         }
 
     }

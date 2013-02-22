@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +29,11 @@ namespace SolverForSatProblem
             }
             if (!Tautologija(nova))
             {
-                for (int i = 0; i < nova.varijable.Count; i++) veze_var_zagrada[nova.varijable[i]].Add(nova);
+                for (int i = 0; i < nova.varijable.Count; i++)
+                {
+                    if (!veze_var_zagrada.ContainsKey(nova.varijable[i])) veze_var_zagrada.Add(nova.varijable[i], new List<Zagrada>());
+                    veze_var_zagrada[nova.varijable[i]].Add(nova);
+                }
             }
             nova.tezina = 1;
             popraviVeze(a, b, veze_var_zagrada, varijable);
@@ -50,20 +54,21 @@ namespace SolverForSatProblem
         }
 
         //rekurzivni poziv za svaku zagradu
-        public static List<Zagrada> RezolucijaFormule1(List<Zagrada> Formula, Dictionary<int, List<Zagrada>> veze_var_zagrada, List<int> varijable, int index)
+        public static List<Zagrada> RezolucijaFormule1(List<Zagrada> Formula, Dictionary<int, List<Zagrada>> veze_var_zagrada, List<int> varijable, int index, int brojSpajanjaZagrada)
         {
-            if (index == Formula.Count || Formula.Count == 1) return Formula;
+            if (index == Formula.Count || Formula.Count == 1 || brojSpajanjaZagrada == 0) return Formula;
             for (int i = 0; i < Formula[index].varijable.Count; i++)
             {
                 if (veze_var_zagrada.ContainsKey(-Formula[index].varijable[i]) && veze_var_zagrada[-Formula[index].varijable[i]].Count != 0)
                 {
                     Zagrada nova = SpojiZagrade(Formula[index], veze_var_zagrada[-Formula[index].varijable[i]].First(), Formula[index].varijable[i], veze_var_zagrada, Formula,varijable);
+                    brojSpajanjaZagrada--;
                     if (!Tautologija(nova)) Formula.Add(nova);
                     index--;
                     break;
                 }
             }
-            RezolucijaFormule1(Formula, veze_var_zagrada, varijable, index + 1);
+            RezolucijaFormule1(Formula, veze_var_zagrada, varijable, index + 1, brojSpajanjaZagrada);
             return Formula;
         }
 

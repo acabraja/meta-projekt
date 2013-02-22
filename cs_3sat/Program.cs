@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
@@ -18,7 +18,7 @@ namespace SolverForSatProblem
             try
             {
                 /* Read cnf from txt file*/
-                using (StreamReader sr = new StreamReader("../../formule/formula2.txt"))
+                using (StreamReader sr = new StreamReader("../../Formula.txt"))
                 {
                     String line;
                     int[] elements = new int[3];
@@ -32,11 +32,11 @@ namespace SolverForSatProblem
                             if (Char.IsDigit(line[i]) || line[i] == '-')
                                 pom_str += line[i];
 
-                            if (pom_str.Length > 0 && (i+1 >= line.Length || line[i + 1] == ' '))
+                            if (pom_str.Length > 0 && (i + 1 >= line.Length || line[i + 1] == ' '))
                             {
                                 elements[k++] = int.Parse(pom_str);
-                                if( 0 == varijable.Find(x => x == Math.Abs(elements[k - 1])))
-                                    varijable.Add(Math.Abs(elements[k -1]));
+                                if (0 == varijable.Find(x => x == Math.Abs(elements[k - 1])))
+                                    varijable.Add(Math.Abs(elements[k - 1]));
                                 pom_str = "";
                             }
                         }
@@ -46,7 +46,7 @@ namespace SolverForSatProblem
                             // izbacuje zagrade koje su tautologije (ako je tautologija nemoj tu zagradu uzet u obzir)
                             if (!((Math.Abs(a) == Math.Abs(b) && a != b) || (Math.Abs(a) == Math.Abs(c) && a != c) || (Math.Abs(b) == Math.Abs(c) && b != c)))
                             {
-								Zagrada nova = new Zagrada(elements[0], elements[1], elements[2]);
+                                Zagrada nova = new Zagrada(elements[0], elements[1], elements[2]);
                                 Zagrade.Add(nova);
                                 if (!veza_var_zagrada.ContainsKey(elements[0]))
                                     veza_var_zagrada.Add(elements[0], new List<Zagrada>());
@@ -54,7 +54,7 @@ namespace SolverForSatProblem
                                     veza_var_zagrada.Add(elements[1], new List<Zagrada>());
                                 if (!veza_var_zagrada.ContainsKey(elements[2]))
                                     veza_var_zagrada.Add(elements[2], new List<Zagrada>());
-                           
+
                                 veza_var_zagrada[elements[0]].Add(nova);
                                 veza_var_zagrada[elements[1]].Add(nova);
                                 veza_var_zagrada[elements[2]].Add(nova);
@@ -126,7 +126,7 @@ namespace SolverForSatProblem
             Stack<int> stog = new Stack<int>();
             List<int> pomocni_skup = new List<int>();
 
-            while( veze_varijabli.Count != 0)
+            while (veze_varijabli.Count != 0)
             {
                 int lk = 0;
                 foreach (int k in veze_varijabli.Keys)
@@ -134,7 +134,7 @@ namespace SolverForSatProblem
                     lk = k;
                     break;
                 }
-                
+
                 stog.Push(lk);
                 while (0 != stog.Count)
                 {
@@ -160,8 +160,8 @@ namespace SolverForSatProblem
             PripremiFormulu();
             List<Zagrada> zagrada = new List<Zagrada>();
 
-			Console.WriteLine("\n ovo si nezavisni skupovi:");
-			Console.WriteLine("---------------------");
+            Console.WriteLine("\n ovo si nezavisni skupovi:");
+            Console.WriteLine("---------------------");
             foreach (List<int> l in nezavisni_skupovi)
             {
                 foreach (int i in l)
@@ -178,41 +178,43 @@ namespace SolverForSatProblem
 
             Console.WriteLine("\nIspis svih zagrada");
             Console.WriteLine("---------------------");
-            foreach(Zagrada i in Zagrade){
+            foreach (Zagrada i in Zagrade)
+            {
                 foreach (int ele in i.varijable)
                     Console.Write("{0} ", ele);
                 Console.Write("\n");
             }
             /*Console.WriteLine("\nTko je s kim povezan:");
-            Console.WriteLine("---------------------");
-            foreach (var k in veza_var_zagrada)
-            {
-                Console.WriteLine("Ja sam {0} i povezana sam sa :", k.Key);
-                foreach (Zagrada i in k.Value)
-                {
-                    foreach (int ele in i.varijable)
-                        Console.Write("{0} ", ele);
-                    Console.Write("\n");
-                }
-            }*/
+Console.WriteLine("---------------------");
+foreach (var k in veza_var_zagrada)
+{
+Console.WriteLine("Ja sam {0} i povezana sam sa :", k.Key);
+foreach (Zagrada i in k.Value)
+{
+foreach (int ele in i.varijable)
+Console.Write("{0} ", ele);
+Console.Write("\n");
+}
+}*/
             //varijable.Sort();
-            zagrada = Rezolucija.RezolucijaFormule1(Zagrade, veza_var_zagrada, varijable, 0);
-            bool[] interpretacija ;
-			Console.WriteLine("\nIspis svih zagrada");
+            zagrada = Rezolucija.RezolucijaFormule1(Zagrade, veza_var_zagrada, varijable, 0, Zagrade.Count);
+            bool[] interpretacija;
+            Console.WriteLine("\nIspis svih zagrada");
             Console.WriteLine("---------------------");
-            foreach(Zagrada i in zagrada){
+            foreach (Zagrada i in zagrada)
+            {
                 foreach (int ele in i.varijable)
                     Console.Write("{0} ", ele);
                 Console.Write("\n");
             }
-            interpretacija = GenetskiAlgoritam.genetskiAlgoritam(50, 500, 0.7, 0.05, true, true, varijable, Zagrade, veza_var_zagrada);
-			if(interpretacija == null) return;
+            interpretacija = GenetskiAlgoritam.genetskiAlgoritam(6, 10, 0.7, 0.05, true, true, varijable, Zagrade, veza_var_zagrada);
+            if (interpretacija == null) return;
             Console.WriteLine("Dobivena interpretacija");
             foreach (bool ine in interpretacija)
-            	Console.Write("{0} ", ine);
+                Console.Write("{0} ", ine);
 
-            /*Console.Write("\n \n \nPress any key to continue . . . ");
-            Console.ReadKey(true);*/
+            Console.Write("\n \n \nPress any key to continue . . . ");
+            Console.ReadKey(true);
         }
 
     }

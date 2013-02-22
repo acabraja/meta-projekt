@@ -60,7 +60,11 @@ namespace SolverForSatProblem
             for (int i = 1; i <= brojGeneracija; i++)
             {
                 trenutna.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
-                if (trenutna.populacija[0].dobrota == 1) return trenutna.populacija[0].bitovi;
+                if (trenutna.populacija[0].dobrota == 1) 
+				{
+					Console.WriteLine("pronasao sam\n");
+					return trenutna.populacija[0].bitovi;
+				}
                 azurirajVjerojatnosti(vjerojatnosti,varijable,veze_var_zagrada);
                 Populacija novaGeneracija = new Populacija(velicinaPopulacije);
                 trenutna.KopirajElitu(novaGeneracija, 2, vjerojatnosti, varijable, veze_var_zagrada, rand);
@@ -79,8 +83,13 @@ namespace SolverForSatProblem
                 trenutna = novaGeneracija;
             }
             trenutna.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
-            if (trenutna.populacija[0].dobrota == 1) return trenutna.populacija[0].bitovi;
-             return null;
+            if (trenutna.populacija[0].dobrota == 1) 
+			{
+				Console.WriteLine("pronasao sam\n");
+				return trenutna.populacija[0].bitovi;
+			}
+			bool[] ret = null;
+             return ret;
         }
     }
 }

@@ -31,8 +31,8 @@ namespace SolverForSatProblem
                 if (this.varijable[i] > 0) varijabla = this.varijable[i];
                 else varijabla = -this.varijable[i];
                 int index = varijable.IndexOf(varijabla);
-                if (bitovi[index] == true && veze_var_zagrada.ContainsKey(varijabla) && veze_var_zagrada[varijabla].Contains(this)) return true;
-                else if (bitovi[index] == false && veze_var_zagrada.ContainsKey(-varijabla) && veze_var_zagrada[-varijabla].Contains(this)) return true;
+                if (bitovi[index] == true && varijable[i] > 0) return true;
+                else if (bitovi[index] == false && varijable[i] < 0) return true;
             }
             this.tezina++;
             return false;

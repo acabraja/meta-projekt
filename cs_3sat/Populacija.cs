@@ -54,7 +54,8 @@ namespace SolverForSatProblem
             for (int i = 0; i < velicinaElite; i += 2)
             { 
                 novaGeneracija.populacija[i] = this.populacija[i];
-                Jedinka pomocna = this.populacija[i];
+                Jedinka pomocna = new Jedinka(varijable.Count);
+				pomocna.bitovi = populacija[i].bitovi;
                 pomocna.UsmjerenaMutacija(vjerojatnosti, varijable, veze_var_zagrada, rand);
                 novaGeneracija.populacija[i + 1] = pomocna;
             }

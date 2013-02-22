@@ -18,7 +18,7 @@ namespace SolverForSatProblem
             this.bitovi = new bool[brojVarijabli];
             for (int i = 0; i < this.brojVarijabli; i++)
             {
-                if (veze_var_zagrada[varijable[i]].Count == 0) bitovi[i] = false;
+                if (veze_var_zagrada.ContainsKey(varijable[i]) && veze_var_zagrada[varijable[i]].Count == 0) bitovi[i] = false;
                 else if (veze_var_zagrada.ContainsKey(-varijable[i]) && veze_var_zagrada[-varijable[i]].Count == 0) bitovi[i] = true;
                 else
                 {

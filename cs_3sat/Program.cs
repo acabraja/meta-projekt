@@ -46,17 +46,18 @@ namespace SolverForSatProblem
                             // izbacuje zagrade koje su tautologije (ako je tautologija nemoj tu zagradu uzet u obzir)
                             if (!((Math.Abs(a) == Math.Abs(b) && a != b) || (Math.Abs(a) == Math.Abs(c) && a != c) || (Math.Abs(b) == Math.Abs(c) && b != c)))
                             {
-                                Zagrade.Add(new Zagrada(elements[0], elements[1], elements[2]));
-                                if (!veza_var_zagrada.ContainsKey(a))
-                                    veza_var_zagrada.Add(a, new List<Zagrada>());
-                                if (!veza_var_zagrada.ContainsKey(b))
-                                    veza_var_zagrada.Add(b, new List<Zagrada>());
-                                if (!veza_var_zagrada.ContainsKey(c))
-                                    veza_var_zagrada.Add(c, new List<Zagrada>());
+								Zagrada nova = new Zagrada(elements[0], elements[1], elements[2]);
+                                Zagrade.Add(nova);
+                                if (!veza_var_zagrada.ContainsKey(elements[0]))
+                                    veza_var_zagrada.Add(elements[0], new List<Zagrada>());
+                                if (!veza_var_zagrada.ContainsKey(elements[1]))
+                                    veza_var_zagrada.Add(elements[1], new List<Zagrada>());
+                                if (!veza_var_zagrada.ContainsKey(elements[2]))
+                                    veza_var_zagrada.Add(elements[2], new List<Zagrada>());
                            
-                                veza_var_zagrada[a].Add(new Zagrada(elements[0], elements[1], elements[2]));
-                                veza_var_zagrada[b].Add(new Zagrada(elements[0], elements[1], elements[2]));
-                                veza_var_zagrada[c].Add(new Zagrada(elements[0], elements[1], elements[2]));
+                                veza_var_zagrada[elements[0]].Add(nova);
+                                veza_var_zagrada[elements[1]].Add(nova);
+                                veza_var_zagrada[elements[2]].Add(nova);
                             }
                         }
                         catch (Exception e)
@@ -157,7 +158,7 @@ namespace SolverForSatProblem
         public static void Main(string[] args)
         {
             PripremiFormulu();
-            //List<Zagrada> zagrada = new List<Zagrada>();
+            List<Zagrada> zagrada = new List<Zagrada>();
 
 			Console.WriteLine("\n ovo si nezavisni skupovi:");
 			Console.WriteLine("---------------------");
@@ -195,10 +196,17 @@ namespace SolverForSatProblem
                 }
             }*/
             //varijable.Sort();
-            //zagrada = Rezolucija.RezolucijaFormule1(Zagrade, veza_var_zagrada, varijable, 0);
-            bool[] interpretacija;
-            interpretacija = GenetskiAlgoritam.genetskiAlgoritam(6, 10, 0.7, 0.05, true, true, varijable, Zagrade, veza_var_zagrada);
-
+            zagrada = Rezolucija.RezolucijaFormule1(Zagrade, veza_var_zagrada, varijable, 0);
+            bool[] interpretacija ;
+			Console.WriteLine("\nIspis svih zagrada");
+            Console.WriteLine("---------------------");
+            foreach(Zagrada i in zagrada){
+                foreach (int ele in i.varijable)
+                    Console.Write("{0} ", ele);
+                Console.Write("\n");
+            }
+            interpretacija = GenetskiAlgoritam.genetskiAlgoritam(50, 500, 0.7, 0.05, true, true, varijable, Zagrade, veza_var_zagrada);
+			if(interpretacija == null) return;
             Console.WriteLine("Dobivena interpretacija");
             foreach (bool ine in interpretacija)
             	Console.Write("{0} ", ine);

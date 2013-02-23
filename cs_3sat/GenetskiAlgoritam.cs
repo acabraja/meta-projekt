@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +13,13 @@ namespace SolverForSatProblem
             List<Zagrada> mojDioFormule = new List<Zagrada>();
             for (int i = 0; i < varijable.Count; i++)
             {
-                if(veze_var_zagrada.ContainsKey(varijable[i]))
+                if (veze_var_zagrada.ContainsKey(varijable[i]))
                 {
-                    for(int j = 0; j < veze_var_zagrada[varijable[i]].Count; j++) if(!mojDioFormule.Contains(veze_var_zagrada[varijable[i]][j])) mojDioFormule.Add(veze_var_zagrada[varijable[i]][j]);
+                    for (int j = 0; j < veze_var_zagrada[varijable[i]].Count; j++) if (!mojDioFormule.Contains(veze_var_zagrada[varijable[i]][j])) mojDioFormule.Add(veze_var_zagrada[varijable[i]][j]);
                 }
-                if(veze_var_zagrada.ContainsKey(-varijable[i]))
+                if (veze_var_zagrada.ContainsKey(-varijable[i]))
                 {
-                    for(int j = 0; j < veze_var_zagrada[-varijable[i]].Count; j++) if(!mojDioFormule.Contains(veze_var_zagrada[-varijable[i]][j])) mojDioFormule.Add(veze_var_zagrada[-varijable[i]][j]);
+                    for (int j = 0; j < veze_var_zagrada[-varijable[i]].Count; j++) if (!mojDioFormule.Contains(veze_var_zagrada[-varijable[i]][j])) mojDioFormule.Add(veze_var_zagrada[-varijable[i]][j]);
                 }
             }
             return mojDioFormule;
@@ -54,18 +54,15 @@ namespace SolverForSatProblem
         public static bool[] genetskiAlgoritam(int velicinaPopulacije, int brojGeneracija, double vjrojatnostKrizanja, double vjerojatnostMutacije, bool rouletteWheel, bool uniformno, List<int> varijable, List<Zagrada> Formula, Dictionary<int, List<Zagrada>> veze_var_zagrada)
         {
             Random rand = new Random();
-            Populacija trenutna = new Populacija(velicinaPopulacije,varijable.Count,varijable,veze_var_zagrada,rand);
+            Populacija trenutna = new Populacija(velicinaPopulacije, varijable.Count, varijable, veze_var_zagrada, rand);
             List<Zagrada> mojDioFormule = mojeZagrade(varijable, veze_var_zagrada);
+            trenutna.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
+            Console.WriteLine("{0}\n", trenutna.populacija[0].dobrota);
+            if (trenutna.populacija[0].dobrota == 1) return trenutna.populacija[0].bitovi;
             double[] vjerojatnosti = new double[varijable.Count];
             for (int i = 1; i <= brojGeneracija; i++)
             {
-                trenutna.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
-                if (trenutna.populacija[0].dobrota == 1) 
-				{
-					Console.WriteLine("pronasao sam\n");
-					return trenutna.populacija[0].bitovi;
-				}
-                azurirajVjerojatnosti(vjerojatnosti,varijable,veze_var_zagrada);
+                azurirajVjerojatnosti(vjerojatnosti, varijable, veze_var_zagrada);
                 Populacija novaGeneracija = new Populacija(velicinaPopulacije);
                 trenutna.KopirajElitu(novaGeneracija, 2, vjerojatnosti, varijable, veze_var_zagrada, rand);
                 for (int j = 2; j < velicinaPopulacije; j += 2)
@@ -80,16 +77,13 @@ namespace SolverForSatProblem
                     novaGeneracija.populacija[j] = prvoDijete;
                     novaGeneracija.populacija[j + 1] = drugoDijete;
                 }
+                novaGeneracija.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
                 trenutna = novaGeneracija;
+                Console.WriteLine("{0}\n", trenutna.populacija[0].dobrota);
+                if (trenutna.populacija[0].dobrota == 1) return trenutna.populacija[0].bitovi;
             }
-            trenutna.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
-            if (trenutna.populacija[0].dobrota == 1) 
-			{
-				Console.WriteLine("pronasao sam\n");
-				return trenutna.populacija[0].bitovi;
-			}
-			bool[] ret = null;
-             return ret;
+            bool[] ret = null;
+            return ret;
         }
     }
 }

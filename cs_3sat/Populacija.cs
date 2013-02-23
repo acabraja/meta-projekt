@@ -52,10 +52,13 @@ namespace SolverForSatProblem
         public void KopirajElitu(Populacija novaGeneracija, int velicinaElite, double[] vjerojatnosti, List<int> varijable, Dictionary<int, List<Zagrada>> veze_var_zagrada, Random rand)
         {
             for (int i = 0; i < velicinaElite; i += 2)
-            { 
+            {
                 novaGeneracija.populacija[i] = this.populacija[i];
                 Jedinka pomocna = new Jedinka(varijable.Count);
-				pomocna.bitovi = populacija[i].bitovi;
+                for (int j = 0; j < populacija[i].bitovi.Length; j++)
+                {
+                    pomocna.bitovi[j] = populacija[i].bitovi[j];
+                }
                 pomocna.UsmjerenaMutacija(vjerojatnosti, varijable, veze_var_zagrada, rand);
                 novaGeneracija.populacija[i + 1] = pomocna;
             }

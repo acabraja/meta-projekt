@@ -1,7 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
+using MPI;
+using SolverForSatProblem;
 
 namespace SolverForSatProblem
 {
@@ -12,13 +14,14 @@ namespace SolverForSatProblem
         public static Dictionary<int, List<int>> veze_varijabli = new Dictionary<int, List<int>>();
         public static Dictionary<int, List<Zagrada>> veza_var_zagrada = new Dictionary<int, List<Zagrada>>();
         public static List<List<int>> nezavisni_skupovi = new List<List<int>>();
+        public static bool[] interpretacija;
 
         public static void PripremiFormulu()
         {
             try
             {
                 /* Read cnf from txt file*/
-                using (StreamReader sr = new StreamReader("../../Formula.txt"))
+                using (StreamReader sr = new StreamReader("../../formule/expr3.cnf"))
                 {
                     String line;
                     int[] elements = new int[3];
@@ -153,13 +156,11 @@ namespace SolverForSatProblem
                 nezavisni_skupovi.Add(new List<int>(pomocni_skup));
                 pomocni_skup.Clear();
             }
+            varijable.Sort();
         }
 
-        public static void Main(string[] args)
+        public static void Ispisi()
         {
-            PripremiFormulu();
-            List<Zagrada> zagrada = new List<Zagrada>();
-
             Console.WriteLine("\n ovo si nezavisni skupovi:");
             Console.WriteLine("---------------------");
             foreach (List<int> l in nezavisni_skupovi)
@@ -168,8 +169,6 @@ namespace SolverForSatProblem
                     Console.Write("{0} ", i);
                 Console.Write("\n");
             }
-
-            varijable.Sort();
             Console.WriteLine("\nIspis svih varijabli");
             Console.WriteLine("---------------------");
             foreach (int ele in varijable)
@@ -184,38 +183,55 @@ namespace SolverForSatProblem
                     Console.Write("{0} ", ele);
                 Console.Write("\n");
             }
-            /*Console.WriteLine("\nTko je s kim povezan:");
-Console.WriteLine("---------------------");
-foreach (var k in veza_var_zagrada)
-{
-Console.WriteLine("Ja sam {0} i povezana sam sa :", k.Key);
-foreach (Zagrada i in k.Value)
-{
-foreach (int ele in i.varijable)
-Console.Write("{0} ", ele);
-Console.Write("\n");
-}
-}*/
-            //varijable.Sort();
-            zagrada = Rezolucija.RezolucijaFormule1(Zagrade, veza_var_zagrada, varijable, 0, Zagrade.Count);
-            bool[] interpretacija;
-            Console.WriteLine("\nIspis svih zagrada");
-            Console.WriteLine("---------------------");
-            foreach (Zagrada i in zagrada)
-            {
+           Console.WriteLine("\nTko je s kim povezan:");
+              Console.WriteLine("---------------------");
+              foreach (var k in veza_var_zagrada)
+              {
+            Console.WriteLine("Ja sam {0} i povezana sam sa :", k.Key);
+             foreach (Zagrada i in k.Value)
+                {
                 foreach (int ele in i.varijable)
-                    Console.Write("{0} ", ele);
+                Console.Write("{0} ", ele);
                 Console.Write("\n");
-            }
-            interpretacija = GenetskiAlgoritam.genetskiAlgoritam(6, 10, 0.7, 0.05, true, true, varijable, Zagrade, veza_var_zagrada);
+                }
+              }
+            //varijable.Sort();
+        }
+
+        public static  void ZoviGenetski()
+        {
+            List<Zagrada> zagrada = new List<Zagrada>();
+            zagrada = Rezolucija.RezolucijaFormule1(Zagrade, veza_var_zagrada, varijable, 0, Zagrade.Count/8);
+            Console.WriteLine(Zagrade.Count);
+            interpretacija = DinamickiGenetski.genetskiAlgoritamParalelno(Communicator.world, Communicator.world.Rank, 6, 100, 200, 0.7, 0.03, true, true, varijable, Zagrade, veza_var_zagrada);
+            //interpretacija = DinamickiGenetski.genetskiAlgoritamSekvencijalni(200, 1000, 0.7, 0.03, true, true, varijable, Zagrade, veza_var_zagrada);
+            //interpretacija = GenetskiAlgoritam.genetskiAlgoritam(200, 1000, 0.7, 0.01, true, true, varijable, Zagrade, veza_var_zagrada);
             if (interpretacija == null) return;
-            Console.WriteLine("Dobivena interpretacija");
+            Console.WriteLine("\n Dobivena interpretacija");
+            Console.WriteLine("---------------------------");
             foreach (bool ine in interpretacija)
                 Console.Write("{0} ", ine);
 
-            Console.Write("\n \n \nPress any key to continue . . . ");
-            Console.ReadKey(true);
         }
 
+        public static void Main(string[] args)
+        {
+            using (new MPI.Environment(ref args))
+            {
+                 /*if (Communicator.world.Rank == 0)
+                 {
+                     PripremiFormulu();
+                     //Ispisi();
+                     //ZoviGenetski();
+                 }
+                 //Console.WriteLine(Communicator.world.Rank);
+                 //ZoviGenetski();
+            //}
+             //Console.Write("\n \n \nPress any key to continue . . . ");
+             //Console.ReadKey(true);*/
+                PripremiFormulu();
+                ZoviGenetski();
+            }
+        }
     }
 }

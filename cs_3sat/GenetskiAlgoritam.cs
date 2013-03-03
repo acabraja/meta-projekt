@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SolverForSatProblem
 {
-    public static class GenetskiAlgoritam
+    public class GenetskiAlgoritam
     {
         //pronalazi zagrade za podskup varijabli koje prima genetski algoritam
         public static List<Zagrada> mojeZagrade(List<int> varijable, Dictionary<int, List<Zagrada>> veze_var_zagrada)
@@ -56,8 +56,7 @@ namespace SolverForSatProblem
             Random rand = new Random();
             Populacija trenutna = new Populacija(velicinaPopulacije, varijable.Count, varijable, veze_var_zagrada, rand);
             List<Zagrada> mojDioFormule = mojeZagrade(varijable, veze_var_zagrada);
-            trenutna.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
-            Console.WriteLine("{0}\n", trenutna.populacija[0].dobrota);
+            trenutna.EvaluirajPopulacijuSTezinama(mojDioFormule, varijable, veze_var_zagrada);
             if (trenutna.populacija[0].dobrota == 1) return trenutna.populacija[0].bitovi;
             double[] vjerojatnosti = new double[varijable.Count];
             for (int i = 1; i <= brojGeneracija; i++)
@@ -77,9 +76,9 @@ namespace SolverForSatProblem
                     novaGeneracija.populacija[j] = prvoDijete;
                     novaGeneracija.populacija[j + 1] = drugoDijete;
                 }
-                novaGeneracija.EvaluirajPopulacijuSTezinom1(mojDioFormule, varijable, veze_var_zagrada);
+                novaGeneracija.EvaluirajPopulacijuSTezinama(mojDioFormule, varijable, veze_var_zagrada);
                 trenutna = novaGeneracija;
-                Console.WriteLine("{0}\n", trenutna.populacija[0].dobrota);
+                Console.WriteLine("{0}\n", trenutna.VratiNajboljuDobrotu());
                 if (trenutna.populacija[0].dobrota == 1) return trenutna.populacija[0].bitovi;
             }
             bool[] ret = null;

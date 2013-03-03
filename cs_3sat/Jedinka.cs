@@ -12,6 +12,14 @@ namespace SolverForSatProblem
         public int brojZadovoljenihZagrada;
         public int brojVarijabli;
 
+        public Jedinka(bool[] Bitovi, double Dobrota, int brZadZag, int brVar)
+        {
+            this.bitovi = (bool[])Bitovi.Clone();
+            this.dobrota = Dobrota;
+            this.brojZadovoljenihZagrada = brZadZag;
+            this.brojVarijabli = brVar;
+        }
+
         public Jedinka(int brojVarijabli ,List<int> varijable,Dictionary<int, List<Zagrada>> veze_var_zagrada, Random rand)
         {
             this.brojVarijabli = brojVarijabli;

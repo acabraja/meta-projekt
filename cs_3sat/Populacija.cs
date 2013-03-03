@@ -28,6 +28,12 @@ namespace SolverForSatProblem
             }
         }
 
+        public double VratiNajboljuDobrotu()
+        {
+            return this.populacija[0].dobrota;
+        }
+
+
         public void EvaluirajPopulacijuSTezinom1(List<Zagrada> Formula, List<int> varijable, Dictionary<int, List<Zagrada>> veze_var_zagrada)
         {
             for (int i = 0; i < velicinaPopulacije; i++)
